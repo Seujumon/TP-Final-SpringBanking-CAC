@@ -11,4 +11,5 @@ public interface UserService {
     public Optional<User> findById(Long id);
     public List<User> findAll(); 
     public boolean deleteById(Long id);
+    public UserDto updateUser(Long id, UserDto userDto);
 }
