@@ -17,6 +17,7 @@ public class UserDto {
     private Integer dni;
     private Date birthdate;
     private String homeaddres;
+    //TODO: Vincular la clase Account con el atributo accounts y sus modificadores de acceso y constructor
     // private List<Account> accounts;
 
     public UserDto(UserDto.Builder builder){

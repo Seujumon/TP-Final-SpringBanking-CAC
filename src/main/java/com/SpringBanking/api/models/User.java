@@ -26,7 +26,7 @@ public class User {
     private Integer dni;
     private Date birthdate;
     private String homeaddres;
-
+    //TODO: Vincular la clase Account con el atributo accounts y sus modificadores de acceso y constructor
     // private List<Account> accounts;
 
     public User(String username, String email, String password, Integer dni, Date birthdate, String homeaddres
