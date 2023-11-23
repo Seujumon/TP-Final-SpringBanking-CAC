@@ -16,6 +16,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "account_type")
+    @Enumerated(EnumType.STRING)
     private AccountType type;
     private String cbu;
     private String alias;
