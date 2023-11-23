@@ -3,6 +3,7 @@ package com.SpringBanking.api.models;
 import java.sql.Date;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,9 +21,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 50)
     private String username;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false, length = 50)
     private String password;
+    @Column(nullable = false)
     private Integer dni;
     private Date birthdate;
     private String homeaddres;
