@@ -2,10 +2,11 @@ package com.SpringBanking.api.services.imp;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.SpringBanking.api.mapper.UserMapper;
+import com.SpringBanking.api.mappers.UserMapper;
 import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.dto.UserDto;
 import com.SpringBanking.api.repositories.UserRepository;
@@ -32,8 +33,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepo.findAll();
+    public List<UserDto> findAll() {
+        return userRepo.findAll()
+            .stream()
+            .map(UserMapper::userToDto)
+            .collect(Collectors.toList());
     }
 
     @Override
