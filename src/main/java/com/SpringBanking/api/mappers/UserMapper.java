@@ -1,4 +1,4 @@
-package com.SpringBanking.api.mapper;
+package com.SpringBanking.api.mappers;
 
 import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.dto.UserDto;
