@@ -1,6 +1,7 @@
 package com.SpringBanking.api.services;
 
 import com.SpringBanking.api.exceptions.InsufficientFundsException;
+import com.SpringBanking.api.exceptions.TransferNotExistsException;
 import com.SpringBanking.api.exceptions.UserNotExistsException;
 import com.SpringBanking.api.mappers.TransferMapper;
 import com.SpringBanking.api.models.Account;
@@ -127,7 +128,7 @@ public class TransferService {
                 transferRepository.deleteById(id);
                 return "La transferencia con id: " + id + " ha sido eliminada";
             } else {
-                throw new UserNotExistsException("La transferencia a eliminar no existe");
+                throw new TransferNotExistsException("La transferencia a eliminar no existe");
             }
         }catch (InsufficientFundsException e){
             throw new InsufficientFundsException( "La transferencia no puede ser eliminada por falta de fondos ");
