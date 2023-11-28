@@ -3,6 +3,8 @@ package com.SpringBanking.api.models.dto;
 import java.sql.Date;
 import java.util.List;
 
+import com.SpringBanking.api.models.Account;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +19,7 @@ public class UserDto {
     private Integer dni;
     private Date birthdate;
     private String homeaddres;
-    //TODO: Vincular la clase Account con el atributo accounts y sus modificadores de acceso y constructor
-    // private List<Account> accounts;
+    private List<Account> accounts;
 
     public UserDto(UserDto.Builder builder){
         id=builder.id;
@@ -28,7 +29,7 @@ public class UserDto {
         dni=builder.dni;
         birthdate=builder.birthdate;
         homeaddres=builder.homeaddres;
-        // accounts=builder.accounts;
+        accounts=builder.accounts;
     }
 
     public static class Builder{
@@ -41,7 +42,7 @@ public class UserDto {
         private Date birthdate;
         private String homeaddres;
 
-        // private List<Account> accounts;
+        private List<Account> accounts;
 
         public UserDto.Builder id(Long id) {
             this.id = id;
@@ -78,10 +79,10 @@ public class UserDto {
             return this;
         }
 
-        // public UserDto.Builder accounts(List<Account> accounts) {
-        //     this.accounts = accounts;
-        //     return this;
-        // }
+        public UserDto.Builder accounts(List<Account> accounts) {
+            this.accounts = accounts;
+            return this;
+        }
 
         public UserDto build() {
             return new UserDto(this);

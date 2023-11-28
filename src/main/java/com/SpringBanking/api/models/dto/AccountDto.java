@@ -1,5 +1,6 @@
 package com.SpringBanking.api.models.dto;
 
+import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.enums.AccountType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +15,8 @@ public class AccountDto {
     private String cbu;
     private String alias;
     private BigDecimal amount;
-    //TODO Relación con la clase USERDTO
-    /*
-    @ManyToOne
     private User owner;
 
-     */
     //TODO Relación con la clase TRANSFERDTO
     /*
     @OneToMany
