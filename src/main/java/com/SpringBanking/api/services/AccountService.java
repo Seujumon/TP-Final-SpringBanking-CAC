@@ -3,8 +3,11 @@ package com.SpringBanking.api.services;
 import com.SpringBanking.api.exceptions.UserNotExistsException;
 import com.SpringBanking.api.mappers.AccountMapper;
 import com.SpringBanking.api.models.Account;
+import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.dto.AccountDto;
 import com.SpringBanking.api.repositories.AccountRepository;
+import com.SpringBanking.api.repositories.UserRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,10 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class AccountService {
     private final AccountRepository repository;
+    private final UserRepository userRepo;
 
-    public AccountService(AccountRepository repository){
+    public AccountService(AccountRepository repository, UserRepository userRepo) {
         this.repository = repository;
-
+        this.userRepo = userRepo;
     }
 
     public List<AccountDto> getAccounts() {
@@ -57,6 +61,10 @@ public class AccountService {
 
             if (dto.getAmount() != null) {
                 accountToModify.setAmount(dto.getAmount());
+            }
+
+            if (dto.getOwner() != null) {
+                accountToModify.setOwner(dto.getOwner());
             }
 
             Account accountModified = repository.save(accountToModify);
