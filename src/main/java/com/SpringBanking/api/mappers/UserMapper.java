@@ -16,7 +16,7 @@ public class UserMapper {
             .dni(userDto.getDni())
             .birthdate(userDto.getBirthdate())
             .homeaddres(userDto.getHomeaddres())
-            // .accounts(userDto.getAccounts())
+            .accounts(userDto.getAccounts())
             .build();
     }
 
@@ -29,7 +29,7 @@ public class UserMapper {
             .dni(user.getDni())
             .birthdate(user.getBirthdate())
             .homeaddres(user.getHomeaddres())
-            // .accounts(user.getAccounts())
+            .accounts(user.getAccounts())
             .build();
     }
 }
