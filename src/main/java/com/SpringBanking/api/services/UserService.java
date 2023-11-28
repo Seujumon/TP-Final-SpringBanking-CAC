@@ -7,7 +7,7 @@ import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.dto.UserDto;
 
 public interface UserService {
-    public User save(UserDto userDto);
+    public UserDto save(UserDto userDto);
     public Optional<User> findById(Long id);
     public List<UserDto> findAll(); 
     public boolean deleteById(Long id);
