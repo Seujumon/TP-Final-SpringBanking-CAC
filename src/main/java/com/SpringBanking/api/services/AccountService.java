@@ -37,11 +37,22 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountDto dto) {
-        //dto.setType(AccountType.SAVINGS_BANK);
-        dto.setType(dto.getType());
         dto.setAmount(BigDecimal.ZERO);
         Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
         return AccountMapper.accountToDto(newAccount);
+    }
+
+    public AccountDto createDefaultAccount(Long id) {
+        User user = userRepo.findById(id).orElseThrow(() -> {
+            throw new UserNotExistsException("User con id:" + id + "inexistente");
+        });
+        Account account = repository.save(Account
+                .builder()
+                .alias(user.getUsername() + ".default")
+                .amount(BigDecimal.ZERO)
+                .owner(user)
+                .build());
+        return AccountMapper.accountToDto(account);
     }
 
     public AccountDto updateAccount(Long id, AccountDto dto) {
