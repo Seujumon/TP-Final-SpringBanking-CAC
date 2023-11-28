@@ -6,25 +6,33 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.SpringBanking.api.mappers.AccountMapper;
 import com.SpringBanking.api.mappers.UserMapper;
 import com.SpringBanking.api.models.User;
+import com.SpringBanking.api.models.dto.AccountDto;
 import com.SpringBanking.api.models.dto.UserDto;
 import com.SpringBanking.api.repositories.UserRepository;
+import com.SpringBanking.api.services.AccountService;
 import com.SpringBanking.api.services.UserService;
 
 @Service
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepo;
+    private final AccountService accountService;
 
-    public UserServiceImp(UserRepository _userRepo) {
+    public UserServiceImp(UserRepository _userRepo, AccountService _accountService) {
         userRepo = _userRepo;
+        accountService=_accountService; 
     }
 
     @Override
-    public User save(UserDto userDto) {
+    public UserDto save(UserDto userDto) {
         User user = userRepo.save(UserMapper.dtoToUser(userDto));
-        return user;
+        if(userDto.getAccounts() == null){
+            accountService.createDefaultAccount(user.getId());
+        }
+        return UserMapper.userToDto(user);
     }
 
     @Override
@@ -70,6 +78,10 @@ public class UserServiceImp implements UserService {
                 user.setBirthdate(userDto.getBirthdate());
             if (userDto.getHomeaddres() != null)
                 user.setHomeaddres(userDto.getHomeaddres());
+            if(userDto.getAccounts() != null){
+                AccountDto accountDto = AccountMapper.accountToDto(userDto.getAccounts().get(0));
+                accountService.updateAccount(accountDto.getId(), accountDto);
+            }
 
             userRepo.save(user);
             return UserMapper.userToDto(user);
