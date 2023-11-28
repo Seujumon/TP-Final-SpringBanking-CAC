@@ -3,11 +3,14 @@ package com.SpringBanking.api.models;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,18 +34,19 @@ public class User {
     private Integer dni;
     private Date birthdate;
     private String homeaddres;
-    //TODO: Vincular la clase Account con el atributo accounts y sus modificadores de acceso y constructor
-    // private List<Account> accounts;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner")
+    private List<Account> accounts;
 
-    public User(String username, String email, String password, Integer dni, Date birthdate, String homeaddres
-           /*, List<Account> accounts */ ) {
+    public User(String username, String email, String password, Integer dni, Date birthdate, String homeaddres, List<Account> accounts  ) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.dni = dni;
         this.birthdate = birthdate;
         this.homeaddres = homeaddres;
-        // this.accounts = accounts;
+        this.accounts = accounts;
     }
 
     public User(User.Builder builder) {
@@ -53,8 +57,17 @@ public class User {
         dni = builder.dni;
         birthdate = builder.birthdate;
         homeaddres = builder.homeaddres;
-        // accounts = builder.accounts;
+        accounts = builder.accounts;
     }
+
+    // public void setAccount(List<Account> account){
+    //     if(!accounts.containsAll(account))
+    //         accounts.addAll(account);
+    // }
+
+    // public void removeAccount(Account account){
+    //     accounts.remove(account);
+    // }
 
     public static class Builder {
 
@@ -66,7 +79,7 @@ public class User {
         private Date birthdate;
         private String homeaddres;
 
-        // private List<Account> accounts;
+        private List<Account> accounts;
 
         public User.Builder id(Long id) {
             this.id = id;
@@ -103,10 +116,10 @@ public class User {
             return this;
         }
 
-        // public User.Builder accounts(List<Account> accounts) {
-        //     this.accounts = accounts;
-        //     return this;
-        // }
+        public User.Builder accounts(List<Account> accounts) {
+            this.accounts = accounts;
+            return this;
+        }
 
         public User build() {
             return new User(this);
