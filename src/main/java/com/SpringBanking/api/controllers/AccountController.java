@@ -56,7 +56,6 @@ public class AccountController {
             String deletionResult = service.deleteAccount(id);
             return ResponseEntity.status(HttpStatus.OK).body(deletionResult);
         } catch (Exception ex) {
-            // Manejar la excepción y devolver un código de estado "bad_request"
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
