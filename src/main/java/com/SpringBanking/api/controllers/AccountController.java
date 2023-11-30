@@ -19,10 +19,15 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AccountDto>> getAccounts(){
-        List<AccountDto> lista = service.getAccounts();
-        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    public ResponseEntity<List<AccountDto>> getAccounts() {
+        try {
+            List<AccountDto> lista = service.getAccounts();
+            return ResponseEntity.status(HttpStatus.OK).body(lista);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
+
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable Long id){
@@ -30,9 +35,15 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(dto));
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto) {
+        try {
+            AccountDto createdAccount = service.createAccount(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
+
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto){
@@ -40,7 +51,14 @@ public class AccountController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.deleteAccount(id));
+    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+        try {
+            String deletionResult = service.deleteAccount(id);
+            return ResponseEntity.status(HttpStatus.OK).body(deletionResult);
+        } catch (Exception ex) {
+            // Manejar la excepción y devolver un código de estado "bad_request"
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
+
 }
