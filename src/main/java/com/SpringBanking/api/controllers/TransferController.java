@@ -17,14 +17,28 @@ public class TransferController {
         this.transferService= service;
     }
     @GetMapping
-    public ResponseEntity<List<TransferDto>> getTransfers(){
-        List<TransferDto> list = transferService.getTransfers();
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+    public ResponseEntity<?> getTransfers(){
+        try{
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(transferService.getTransfers());}
+        catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TransferDto> getTransfer(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.getTransferById(id));
+    public ResponseEntity<?> getTransfer(@PathVariable Long id){
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(transferService.getTransferById(id));
+        }catch(Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró una transferencia con el id: " + id);
+        }
     }
 
 
