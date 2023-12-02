@@ -5,8 +5,10 @@ import com.SpringBanking.api.mappers.AccountMapper;
 import com.SpringBanking.api.models.Account;
 import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.dto.AccountDto;
+import com.SpringBanking.api.models.enums.AccountType;
 import com.SpringBanking.api.repositories.AccountRepository;
 import com.SpringBanking.api.repositories.UserRepository;
+import com.SpringBanking.api.utils.AccountGeneratorValue;
 
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,9 @@ public class AccountService {
         });
         Account account = repository.save(Account
                 .builder()
-                .alias(user.getUsername() + ".default")
+                .alias(AccountGeneratorValue.generateAlias(user.getUsername()))
+                .cbu(AccountGeneratorValue.generateCbu())
+                .type(AccountType.SAVINGS_BANK)
                 .amount(BigDecimal.ZERO)
                 .owner(user)
                 .build());
