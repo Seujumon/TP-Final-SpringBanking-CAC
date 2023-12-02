@@ -32,7 +32,7 @@ public class User {
     private String email;
     @Column(nullable = false, length = 50)
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Integer dni;
     private Date birthdate;
     private String homeaddres;
@@ -61,15 +61,6 @@ public class User {
         homeaddres = builder.homeaddres;
         accounts = builder.accounts;
     }
-
-    // public void setAccount(List<Account> account){
-    //     if(!accounts.containsAll(account))
-    //         accounts.addAll(account);
-    // }
-
-    // public void removeAccount(Account account){
-    //     accounts.remove(account);
-    // }
 
     public static class Builder {
 
