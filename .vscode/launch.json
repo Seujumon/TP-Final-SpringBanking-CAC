@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AccountGeneratorValue",
+            "request": "launch",
+            "mainClass": "com.SpringBanking.api.utils.AccountGeneratorValue",
+            "projectName": "api"
+        },
+        {
+            "type": "java",
             "name": "AccountGenerateValue",
             "request": "launch",
             "mainClass": "com.SpringBanking.api.utils.AccountGenerateValue",
