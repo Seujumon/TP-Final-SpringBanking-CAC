@@ -29,9 +29,13 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAccountById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(dto));
+    @PostMapping("/{idUser}")
+    public ResponseEntity<?> createAccount(@PathVariable Long idUser, @RequestBody AccountDto dto){
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(idUser, dto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping(value = "/{id}")

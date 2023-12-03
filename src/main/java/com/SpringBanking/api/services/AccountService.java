@@ -38,10 +38,25 @@ public class AccountService {
         return AccountMapper.accountToDto(entity);
     }
 
-    public AccountDto createAccount(Long id, AccountDto dto) {
-        dto.setAmount(BigDecimal.ZERO);
-        Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
-        return AccountMapper.accountToDto(newAccount);
+    public AccountDto createAccount(Long id, AccountDto dto) throws Exception{
+        User user = userRepo.findById(id).orElseThrow(()->{
+            throw new UserNotExistsException("User con id:" + id + "inexistente");
+        });
+        //Vreifica que el alias no sea igual a otras cuentas de usuario
+        boolean aliasExist = user.getAccounts().stream()
+                                .anyMatch( account -> 
+                                account.getAlias().equals(dto.getAlias()));
+        System.out.println(aliasExist);
+        if (aliasExist) {
+            throw new Exception("Alias ​​already existing in an account");
+        }else{
+            dto.setOwner(user);
+            dto.setAmount(BigDecimal.ZERO);
+            dto.setCbu(AccountGeneratorValue.generateCbu());
+            Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
+            return AccountMapper.accountToDto(newAccount);
+        }
+
     }
 
     public AccountDto createDefaultAccount(Long id) {
