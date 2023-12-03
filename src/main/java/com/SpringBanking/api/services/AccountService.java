@@ -38,7 +38,7 @@ public class AccountService {
         return AccountMapper.accountToDto(entity);
     }
 
-    public AccountDto createAccount(AccountDto dto) {
+    public AccountDto createAccount(Long id, AccountDto dto) {
         dto.setAmount(BigDecimal.ZERO);
         Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
         return AccountMapper.accountToDto(newAccount);
@@ -69,18 +69,12 @@ public class AccountService {
             if (dto.getType() != null) {
                 accountToModify.setType(dto.getType());
             }
-
-            if (dto.getCbu() != null) {
-                accountToModify.setCbu(dto.getCbu());
-            }
+            //Elimine la modificacion del cbu ya q no tendria que poder modificarse
 
             if (dto.getAmount() != null) {
                 accountToModify.setAmount(dto.getAmount());
             }
-
-            if (dto.getOwner() != null) {
-                accountToModify.setOwner(dto.getOwner());
-            }
+            //Elimine la modificacion del usuario ya q no tendria que poder modificarse
 
             Account accountModified = repository.save(accountToModify);
 
