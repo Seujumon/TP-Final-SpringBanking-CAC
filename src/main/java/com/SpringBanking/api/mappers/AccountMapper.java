@@ -6,6 +6,8 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class AccountMapper {
+
+    // TODO: REFACTOR BUILDER
     public AccountDto accountToDto(Account account){
         AccountDto dto = new AccountDto();
         dto.setAlias(account.getAlias());
@@ -13,9 +15,9 @@ public class AccountMapper {
         dto.setType(account.getType());
         dto.setAmount(account.getAmount());
         dto.setId(account.getId());
-        dto.setOwner(account.getOwner());;
         return dto;
     }
+
 
     public Account dtoToAccount(AccountDto dto){
         Account account = new Account();
@@ -23,7 +25,7 @@ public class AccountMapper {
         account.setType(dto.getType());
         account.setCbu(dto.getCbu());
         account.setAmount(dto.getAmount());
-        account.setOwner(dto.getOwner());
         return account;
     }
+    
 }

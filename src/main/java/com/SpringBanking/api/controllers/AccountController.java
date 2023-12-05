@@ -19,24 +19,40 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AccountDto>> getAccounts(){
-        List<AccountDto> lista = service.getAccounts();
-        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    public ResponseEntity<List<AccountDto>> getAccounts() {
+        try {
+            List<AccountDto> lista = service.getAccounts();
+            return ResponseEntity.status(HttpStatus.OK).body(lista);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
+
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.getAccountById(id));
     }
 
+<<<<<<< HEAD
     @PostMapping("/{idUser}")
     public ResponseEntity<?> createAccount(@PathVariable Long idUser, @RequestBody AccountDto dto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(idUser, dto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+=======
+    @PostMapping
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto) {
+        try {
+            AccountDto createdAccount = service.createAccount(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+>>>>>>> origin/GinaRamacciotti
         }
     }
+
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto){
@@ -44,7 +60,13 @@ public class AccountController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.deleteAccount(id));
+    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+        try {
+            String deletionResult = service.deleteAccount(id);
+            return ResponseEntity.status(HttpStatus.OK).body(deletionResult);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
+
 }

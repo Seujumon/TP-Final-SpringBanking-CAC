@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class AccountGeneratorValue {
-    private Random rand = new Random();
+    private static final Random rand = new Random();
     
     public static String generateCbu(){
         StringBuilder cbu = new StringBuilder();
