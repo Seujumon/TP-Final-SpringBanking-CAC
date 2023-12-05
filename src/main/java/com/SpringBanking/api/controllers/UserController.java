@@ -29,9 +29,16 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getUsers() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.findAll());
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(userService.findAll());
+            
+        } catch (Exception e) {
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+        }
     }
 
     @GetMapping("/users/{id}")
@@ -55,7 +62,7 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(e.toString());
+                    .body(e.getMessage());
         }
     }
 
@@ -66,8 +73,8 @@ public class UserController {
             return ResponseEntity.ok().body(null);
         } else
             return ResponseEntity
-                .status(HttpStatus
-                .NOT_FOUND).body("No se pudo borrar el Usuario");
+                .status(HttpStatus.NOT_FOUND).
+                body("No se pudo borrar el Usuario");
     }
 
     @PatchMapping("/users/{id}")
