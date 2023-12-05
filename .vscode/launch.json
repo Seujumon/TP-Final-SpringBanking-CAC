@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "AccountGeneratorValue",
+            "request": "launch",
+            "mainClass": "com.SpringBanking.api.utils.AccountGeneratorValue",
+            "projectName": "api"
+        },
+        {
+            "type": "java",
+            "name": "AccountGenerateValue",
+            "request": "launch",
+            "mainClass": "com.SpringBanking.api.utils.AccountGenerateValue",
+            "projectName": "api"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiApplication<api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.SpringBanking.api.ApiApplication",
+            "projectName": "api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

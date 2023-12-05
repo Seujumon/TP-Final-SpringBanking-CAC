@@ -26,7 +26,9 @@ public class Account {
     @Column(name = "account_type")
     @Enumerated(EnumType.STRING)
     private AccountType type;
+    @Column(unique = true, nullable = false)
     private String cbu;
+    @Column(unique = true)
     private String alias;
     private BigDecimal amount;
 
