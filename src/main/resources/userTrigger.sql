@@ -1,12 +1,13 @@
 
-DROP TRIGGER IF EXISTS `home_banking`.`usuario_AFTER_UPDATE`;
+DROP TRIGGER IF EXISTS `db_springbanking`.`users_AFTER_UPDATE`;
 
 DELIMITER $$
-USE `home_banking`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `home_banking`.`usuario_AFTER_UPDATE` AFTER UPDATE ON `usuario` FOR EACH ROW
+USE `db_springbanking`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `db_springbanking`.`users_AFTER_UPDATE` AFTER UPDATE ON `users` FOR EACH ROW
 BEGIN
-insert into usuario_historial 
-values (new.id, new.nombre_usuario, new.email, new.contraseña, new.dni, new.fecha_nacimiento, new.domicilio, new.id_cuenta, current_timestamp());
+insert into user_history
+values (new.id, new.birthdate, new.dni, new.email, new.homeaddres, new.password, new.username, current_timestamp());
+
 END$$
 DELIMITER ;
 
