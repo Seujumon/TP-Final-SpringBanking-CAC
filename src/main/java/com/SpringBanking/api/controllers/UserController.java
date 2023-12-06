@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.dto.UserDto;
 import com.SpringBanking.api.services.UserService;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api")
@@ -70,7 +71,7 @@ public class UserController {
                 .NOT_FOUND).body("No se pudo borrar el Usuario");
     }
 
-    @PatchMapping("/users/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<?> modifyUser(@PathVariable Long id, @RequestBody UserDto userDto){
         UserDto userModify = userService.updateUser(id, userDto);
         

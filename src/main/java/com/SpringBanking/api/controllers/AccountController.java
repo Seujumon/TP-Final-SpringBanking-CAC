@@ -18,7 +18,7 @@ public class AccountController {
         this.service = service;
     }
 
-    @GetMapping
+   @GetMapping
     public ResponseEntity<List<AccountDto>> getAccounts() {
         try {
             List<AccountDto> lista = service.getAccounts();
@@ -28,31 +28,20 @@ public class AccountController {
         }
     }
 
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.getAccountById(id));
     }
 
-<<<<<<< HEAD
-    @PostMapping("/{idUser}")
+  
+   @PostMapping("/{idUser}")
     public ResponseEntity<?> createAccount(@PathVariable Long idUser, @RequestBody AccountDto dto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(idUser, dto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-=======
-    @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto) {
-        try {
-            AccountDto createdAccount = service.createAccount(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
->>>>>>> origin/GinaRamacciotti
         }
     }
-
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto){
