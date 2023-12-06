@@ -1,7 +1,5 @@
 package com.SpringBanking.api.controllers;
 
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.SpringBanking.api.models.User;
+import com.SpringBanking.api.exceptions.UserNotExistsException;
 import com.SpringBanking.api.models.dto.UserDto;
 import com.SpringBanking.api.services.UserService;
 
@@ -43,14 +41,16 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
 
-        if (user.isPresent())
-            return ResponseEntity.ok().body(user.get());
-        else
+        try{
+            return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(userService.findById(id));
+        }catch(UserNotExistsException e){
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(user.get());
+                .body(e.getMessage());
+        }
     }
 
     @PostMapping("/users")
@@ -69,25 +69,31 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id){
 
-        if(userService.deleteById(id)){
-            return ResponseEntity.ok().body(null);
-        } else
+        try{
+            userService.deleteById(id);
+
             return ResponseEntity
-                .status(HttpStatus.NOT_FOUND).
-                body("No se pudo borrar el Usuario");
+            .status(HttpStatus.OK)
+            .body("Cuenta con id: "+id+" ha sido eliminada!");
+        } catch(UserNotExistsException e){
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
+        }
     }
 
     @PatchMapping("/users/{id}")
     public ResponseEntity<?> modifyUser(@PathVariable Long id, @RequestBody UserDto userDto){
         UserDto userModify = userService.updateUser(id, userDto);
         
-        if ( userModify != null) 
+        try{
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userModify);
-        else
+        } catch(Exception e){
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(userModify);
+                .body(e.getMessage());
+        }
     }
 }
