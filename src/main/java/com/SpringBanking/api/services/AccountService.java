@@ -1,5 +1,6 @@
 package com.SpringBanking.api.services;
 
+import com.SpringBanking.api.exceptions.AccountNotExistsException;
 import com.SpringBanking.api.exceptions.UserNotExistsException;
 import com.SpringBanking.api.mappers.AccountMapper;
 import com.SpringBanking.api.models.Account;
@@ -43,10 +44,9 @@ public class AccountService {
             throw new UserNotExistsException("User con id:" + id + "inexistente");
         });
         //Vreifica que el alias no sea igual a otras cuentas de usuario
-        boolean aliasExist = user.getAccounts().stream()
-                                .anyMatch( account -> 
-                                account.getAlias().equals(dto.getAlias()));
-        System.out.println(aliasExist);
+        boolean aliasExist = user.getAccounts()
+                                .stream()
+                                .anyMatch( account -> account.getAlias().equals(dto.getAlias()));
         if (aliasExist) {
             throw new Exception("Alias ​​already existing in an account");
         }else{
@@ -103,7 +103,7 @@ public class AccountService {
             repository.deleteById(id);
             return "La cuenta con id: " + id + " ha sido eliminada";
         } else {
-            throw new UserNotExistsException("La cuenta a eliminar no existe");
+            throw new AccountNotExistsException("La cuenta a eliminar no existe");
         }
     }
 }
