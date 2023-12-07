@@ -1,8 +1,8 @@
 package com.SpringBanking.api.services;
 
+import com.SpringBanking.api.exceptions.AccountNotExistsException;
 import com.SpringBanking.api.exceptions.InsufficientFundsException;
 import com.SpringBanking.api.exceptions.TransferNotExistsException;
-import com.SpringBanking.api.exceptions.UserNotExistsException;
 import com.SpringBanking.api.mappers.TransferMapper;
 import com.SpringBanking.api.models.Account;
 import com.SpringBanking.api.models.Transfer;
@@ -53,7 +53,7 @@ public class TransferService {
     //TODO refactorizar para hacerlo en account
     public void validateAccountExist(Long id){
         if(!accountRepository.existsById(id)){
-            throw new UserNotExistsException("La cuenta con el id " + id + " no existe");
+            throw new AccountNotExistsException("La cuenta con el id " + id + " no existe");
         }
     }
     //validar que la cuenta de origen tenga fondos
