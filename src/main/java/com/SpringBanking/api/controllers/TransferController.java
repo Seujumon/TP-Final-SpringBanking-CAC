@@ -40,22 +40,22 @@ public class TransferController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<TransferDto> createTransfer(@RequestBody TransferDto dto){
+   @PostMapping
+    public ResponseEntity<?> createTransfer(@RequestBody TransferDto dto){
         try {
         return ResponseEntity.status(HttpStatus.CREATED).body(transferService.createTransfer(dto));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transferService.createTransfer(dto));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         }
     
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TransferDto> updateTransfer(@PathVariable Long id, @RequestBody TransferDto dto){
+    public ResponseEntity<?> updateTransfer(@PathVariable Long id, @RequestBody TransferDto dto){
         try {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.updateTransfer(id, dto));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transferService.updateTransfer(id, dto));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }    
     }
     
@@ -64,8 +64,7 @@ public class TransferController {
         try {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.deleteTransfer(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transferService.deleteTransfer(id));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }
