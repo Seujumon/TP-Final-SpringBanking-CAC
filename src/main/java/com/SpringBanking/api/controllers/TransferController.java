@@ -4,6 +4,7 @@ import com.SpringBanking.api.models.dto.TransferDto;
 import com.SpringBanking.api.services.TransferService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -68,4 +69,10 @@ public class TransferController {
         }
     }
 
+    //Informa un mal formato en el body 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex){
+        return ResponseEntity.badRequest().body("Invalid request body\n" + ex.getMessage());
+    }
+    
 }
