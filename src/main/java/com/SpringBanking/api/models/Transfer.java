@@ -14,10 +14,16 @@ public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Long originAccount;
+    @Column(nullable = false)
     private Long destinationAccount;
     private BigDecimal amount;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 }

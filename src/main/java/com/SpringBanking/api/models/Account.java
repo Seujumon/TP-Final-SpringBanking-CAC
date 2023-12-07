@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -36,11 +37,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
-
-     
-    //TODO Relación con la clase TRANSFER
-    /*
-    @OneToMany
+    
+    @OneToMany(mappedBy = "account")
     private List<Transfer> transfers;
-    * */
 }
