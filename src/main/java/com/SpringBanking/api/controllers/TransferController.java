@@ -42,16 +42,30 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity<TransferDto> createTransfer(@RequestBody TransferDto dto){
+        try {
         return ResponseEntity.status(HttpStatus.CREATED).body(transferService.createTransfer(dto));
-    }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transferService.createTransfer(dto));
+        }
+        }
+    
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<TransferDto> updateTransfer(@PathVariable Long id, @RequestBody TransferDto dto){
+        try {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.updateTransfer(id, dto));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transferService.updateTransfer(id, dto));
+        }    
     }
+    
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteTransfer(@PathVariable Long id){
+        try {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.deleteTransfer(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transferService.deleteTransfer(id));
+        }
     }
 
 }

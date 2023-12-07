@@ -53,10 +53,14 @@ public class AccountController {
     }
   
 
-  @PutMapping(value = "/{id}")
-  public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto) {
+@PutMapping(value = "/{id}")
+public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto) {
+    try {
     return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, dto));
+  } catch (Exception e) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(service.updateAccount(id, dto));
   }
+}
   
   @PostMapping("/{idUser}")
   public ResponseEntity<?> createAccount(@PathVariable Long idUser, @RequestBody AccountDto dto){
