@@ -36,11 +36,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public UserDto findById(Long id) {
         User user = userRepo.findById(id).orElseThrow(() -> {
             throw new UserNotExistsException("User no exist with id: " + id);
         });
-        return user;
+        return UserMapper.userToDto(user);
     }
 
     @Override

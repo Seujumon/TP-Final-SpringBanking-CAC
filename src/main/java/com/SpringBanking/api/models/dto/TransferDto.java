@@ -1,5 +1,6 @@
 package com.SpringBanking.api.models.dto;
 
+import com.SpringBanking.api.models.Account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class TransferDto {
     private Long destinationAccount;
     private BigDecimal amount;
     private LocalDateTime dateTime;
+    private Account account;
 }

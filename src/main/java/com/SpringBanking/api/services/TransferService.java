@@ -37,8 +37,10 @@ public class TransferService {
         return TransferMapper.transferToDto(entity);
     }
     @Transactional
-    public TransferDto createTransfer(TransferDto dto) {
+    public TransferDto createTransfer(TransferDto dto, Long idAccount) {
+        validateAccountExist(idAccount);
         doTransfer(dto);
+        dto.setAccount(accountRepository.findById(idAccount).get());
         dto.setDateTime(LocalDateTime.now());
         Transfer newTransfer = transferRepository.save(TransferMapper.dtoToTransfer(dto));
         return TransferMapper.transferToDto(newTransfer);
@@ -79,9 +81,7 @@ public class TransferService {
     }
     @Transactional
     public TransferDto updateTransfer(Long id, TransferDto dto) {
-        /**TODO rollback de la transferencia. Al modificar los datos de la transferencia, debería volverse atrás con la transferencia original.
-         * No solo cambiar los datos
-        **/
+
         if(transferRepository.existsById(id)){
             //Rollback
             Transfer transfer = transferRepository.findById(id).get();
@@ -101,8 +101,9 @@ public class TransferService {
             doTransfer(TransferMapper.transferToDto(transfer));
             Transfer updatedTransfer =transferRepository.save(transfer);
             return TransferMapper.transferToDto(updatedTransfer);
+        }else {
+            throw new TransferNotExistsException("No existe una transferencia con el id " + id);
         }
-        return null;
     }
 
     private void undoTransfer(Transfer transfer) {

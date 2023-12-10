@@ -75,7 +75,7 @@ public class UserController {
 
             return ResponseEntity
             .status(HttpStatus.OK)
-            .body("Cuenta con id: "+id+" ha sido eliminada!");
+            .body("El Usuario con id: "+id+" ha sido eliminado!");
         } catch(UserNotExistsException e){
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)

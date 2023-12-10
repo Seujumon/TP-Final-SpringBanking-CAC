@@ -40,10 +40,10 @@ public class TransferController {
     }
 
 
-   @PostMapping
-    public ResponseEntity<?> createTransfer(@RequestBody TransferDto dto){
+   @PostMapping("/{idAccount}")
+    public ResponseEntity<?> createTransfer(@PathVariable Long idAccount,@RequestBody TransferDto dto){
         try {
-        return ResponseEntity.status(HttpStatus.CREATED).body(transferService.createTransfer(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transferService.createTransfer(dto, idAccount));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

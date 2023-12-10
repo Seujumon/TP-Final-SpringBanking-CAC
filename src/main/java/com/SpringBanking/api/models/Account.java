@@ -38,6 +38,6 @@ public class Account {
     @JoinColumn(name = "owner_id")
     private User owner;
     
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;
 }
