@@ -1,5 +1,6 @@
 package com.SpringBanking.api.controllers;
 
+import com.SpringBanking.api.models.dto.ResponseError;
 import com.SpringBanking.api.models.dto.TransferDto;
 import com.SpringBanking.api.services.TransferService;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class TransferController {
 
     TransferService transferService;
-    public TransferController(TransferService service){
+    ResponseError responseError;
+    public TransferController(TransferService service, ResponseError responseError){
         this.transferService= service;
+        this.responseError=responseError;
     }
     @GetMapping
     public ResponseEntity<?> getTransfers(){
@@ -21,8 +24,10 @@ public class TransferController {
                     .status(HttpStatus.OK)
                     .body(transferService.getTransfers());}
         catch (Exception e){
+            responseError.setError("INTERNAL_SERVER_ERROR");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseError);
         }
     }
 
@@ -33,9 +38,11 @@ public class TransferController {
                     .status(HttpStatus.OK)
                     .body(transferService.getTransferById(id));
         }catch(Exception e){
+            responseError.setError("NOT_FOUND");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró una transferencia con el id: " + id);
+                    .body(responseError);
         }
     }
 
@@ -45,7 +52,9 @@ public class TransferController {
         try {
         return ResponseEntity.status(HttpStatus.CREATED).body(transferService.createTransfer(dto, idAccount));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            responseError.setError("Bad_REQUEST");
+            responseError.setMessege(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
         }
         }
     
@@ -55,16 +64,20 @@ public class TransferController {
         try {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.updateTransfer(id, dto));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
         }    
     }
     
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteTransfer(@PathVariable Long id){
+    public ResponseEntity<?> deleteTransfer(@PathVariable Long id){
         try {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.deleteTransfer(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
         }
     }
 }

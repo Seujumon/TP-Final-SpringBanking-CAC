@@ -14,6 +14,7 @@
 /mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/services/imp/UserServiceImp.java
 /mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/models/dto/TransferDto.java
 /mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/models/User.java
+/mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/models/dto/ResponseError.java
 /mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/repositories/UserRepository.java
 /mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/models/dto/UserDto.java
 /mnt/E03061DF3061BD62/Programacion/Codo a Codo/Spring/ProyectoFinal/src/main/java/com/SpringBanking/api/mappers/TransferMapper.java

@@ -1,5 +1,6 @@
 package com.SpringBanking.api.controllers;
 
+import com.SpringBanking.api.models.dto.ResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class UserController {
 
     private final UserService userService;
+    private final ResponseError responseError;
 
-    public UserController(UserService _userService) {
-        userService = _userService;
+    public UserController(UserService _userService, ResponseError responseError) {
+
+        this.userService = _userService;
+        this.responseError=responseError;
     }
 
     @GetMapping("/users")
@@ -34,9 +38,11 @@ public class UserController {
                     .body(userService.findAll());
             
         } catch (Exception e) {
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
+                .body(responseError);
         }
     }
 
@@ -48,9 +54,11 @@ public class UserController {
             .status(HttpStatus.OK)
             .body(userService.findById(id));
         }catch(UserNotExistsException e){
+            responseError.setError("NOT_FOUND");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+                .body(responseError);
         }
     }
 
@@ -61,9 +69,11 @@ public class UserController {
                     .ok()
                     .body(userService.save(userDto));
         } catch (Exception e) {
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(responseError);
         }
     }
 
@@ -77,24 +87,27 @@ public class UserController {
             .status(HttpStatus.OK)
             .body("El Usuario con id: "+id+" ha sido eliminado!");
         } catch(UserNotExistsException e){
+            responseError.setError("NOT_FOUND");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+                .body(responseError);
         }
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<?> modifyUser(@PathVariable Long id, @RequestBody UserDto userDto){
-        UserDto userModify = userService.updateUser(id, userDto);
-        
         try{
+            UserDto userModify = userService.updateUser(id, userDto);
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userModify);
         } catch(Exception e){
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(e.getMessage());
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
+                .body(responseError);
         }
     }
 }

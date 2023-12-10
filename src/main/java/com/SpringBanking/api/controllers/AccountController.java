@@ -1,6 +1,7 @@
 package com.SpringBanking.api.controllers;
 
 import com.SpringBanking.api.models.dto.AccountDto;
+import com.SpringBanking.api.models.dto.ResponseError;
 import com.SpringBanking.api.services.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,45 +21,49 @@ import java.util.List;
 public class AccountController {
 
   private final AccountService service;
+  private final ResponseError responseError;
 
-  public AccountController(AccountService service) {
-    this.service = service;
+
+  public AccountController(AccountService service, ResponseError responseError) {
+      this.responseError=responseError;
+      this.service = service;
   }
 
 
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<?> getAccount(@PathVariable Long id) {
-    AccountDto account = service.getAccountById(id);
-
-    if (account != null) {
-
-      return ResponseEntity.status(HttpStatus.OK).body(account);
-      
-    } else {
-    
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró la cuenta con ID: " + id);
-    
-    }
+        try {
+            AccountDto account = service.getAccountById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(account);
+        }catch(Exception e) {
+            responseError.setError("NOT_FOUND");
+            responseError.setMessege("No se encontró la cuenta con ID: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseError);
+        }
   }
 
    @GetMapping
-    public ResponseEntity<List<AccountDto>> getAccounts() {
+    public ResponseEntity<?> getAccounts() {
         try {
-            List<AccountDto> lista = service.getAccounts();
-            return ResponseEntity.status(HttpStatus.OK).body(lista);
+            List<AccountDto> accountsList = service.getAccounts();
+            return ResponseEntity.status(HttpStatus.OK).body(accountsList);
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
         }
     }
   
 
 @PutMapping(value = "/{id}")
-public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto) {
+public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto) {
     try {
     return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, dto));
   } catch (Exception e) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(service.updateAccount(id, dto));
+        responseError.setError("BAD_REQUEST");
+        responseError.setMessege(e.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
   }
 }
   
@@ -67,19 +72,23 @@ public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestB
       try {
           return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(idUser, dto));
       } catch (Exception e) {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+          responseError.setError("BAD_REQUEST");
+          responseError.setMessege(e.getMessage());
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
       }
   }
 
   
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<?> deleteAccount(@PathVariable Long id) {
         try {
             String deletionResult = service.deleteAccount(id);
             return ResponseEntity.status(HttpStatus.OK).body(deletionResult);
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            responseError.setError("BAD_REQUEST");
+            responseError.setMessege(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
         }
     }
 

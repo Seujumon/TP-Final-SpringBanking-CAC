@@ -33,6 +33,7 @@ public class TransferService {
     }
 
     public TransferDto getTransferById(Long id) {
+        
         Transfer entity = transferRepository.findById(id).get();
         return TransferMapper.transferToDto(entity);
     }

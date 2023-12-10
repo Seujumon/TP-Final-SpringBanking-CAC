@@ -9,6 +9,7 @@ com/SpringBanking/api/models/Account$AccountBuilder.class
 com/SpringBanking/api/services/imp/UserServiceImp.class
 com/SpringBanking/api/models/dto/UserDto.class
 com/SpringBanking/api/ApiApplication.class
+com/SpringBanking/api/models/dto/ResponseError.class
 com/SpringBanking/api/services/AccountService.class
 com/SpringBanking/api/models/Transfer.class
 com/SpringBanking/api/exceptions/TransferNotExistsException.class

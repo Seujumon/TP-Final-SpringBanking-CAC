@@ -35,14 +35,20 @@ public class AccountService {
     }
 
     public AccountDto getAccountById(Long id) {
-        Account entity = repository.findById(id).get();
-        return AccountMapper.accountToDto(entity);
+        try {
+            Account entity = repository.findById(id).get();
+            return AccountMapper.accountToDto(entity);
+        }catch (Exception e){
+            throw new AccountNotExistsException("No existe la cuenta con el id " + id);
+        }
+
     }
 
     public AccountDto createAccount(Long id, AccountDto dto) throws Exception{
         User user = userRepo.findById(id).orElseThrow(()->{
-            throw new UserNotExistsException("User con id:" + id + "inexistente");
+            throw new UserNotExistsException("User con id: " + id + " inexistente");
         });
+        dto.setAlias(AccountGeneratorValue.generateAlias(user.getUsername()));
         //Vreifica que el alias no sea igual a otras cuentas de usuario
         boolean aliasExist = user.getAccounts()
                                 .stream()
@@ -61,7 +67,7 @@ public class AccountService {
 
     public AccountDto createDefaultAccount(Long id) {
         User user = userRepo.findById(id).orElseThrow(() -> {
-            throw new UserNotExistsException("User con id:" + id + "inexistente");
+            throw new UserNotExistsException("User con id: " + id + "inexistente");
         });
         Account account = repository.save(Account
                 .builder()
@@ -86,7 +92,7 @@ public class AccountService {
             }
             //Elimine la modificacion del cbu ya q no tendria que poder modificarse
 
-            if (dto.getAmount() != null) {
+            if (dto.getAmount() != null && dto.getAmount().compareTo(BigDecimal.ZERO)>0) {
                 accountToModify.setAmount(dto.getAmount());
             }
             //Elimine la modificacion del usuario ya q no tendria que poder modificarse
@@ -94,8 +100,10 @@ public class AccountService {
             Account accountModified = repository.save(accountToModify);
 
             return AccountMapper.accountToDto(accountModified);
+        } else {
+            throw new AccountNotExistsException("No existe la cuenta con id " + id);
         }
-        return null;
+
     }
 
     public String deleteAccount(Long id) {
