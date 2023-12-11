@@ -79,4 +79,8 @@ public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestB
   public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex){
       return ResponseEntity.badRequest().body("Invalid request body\n" + ex.getMessage());
   }
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e){
+    return ResponseEntity.badRequest().body(e.getMessage());
+  }
 }

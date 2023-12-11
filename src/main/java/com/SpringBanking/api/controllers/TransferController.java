@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 @RequestMapping("/api/transfers")
@@ -74,5 +75,8 @@ public class TransferController {
     public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex){
         return ResponseEntity.badRequest().body("Invalid request body\n" + ex.getMessage());
     }
-    
+     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e){
+    return ResponseEntity.badRequest().body(e.getMessage());
+    }  
 }

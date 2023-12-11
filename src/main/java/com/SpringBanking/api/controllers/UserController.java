@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.SpringBanking.api.exceptions.UserNotExistsException;
 import com.SpringBanking.api.models.dto.UserDto;
@@ -103,5 +104,8 @@ public class UserController {
     public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex){
         return ResponseEntity.badRequest().body("Invalid request body\n" + ex.getMessage());
     }
-    
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e){
+    return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }
