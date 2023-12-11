@@ -6,6 +6,8 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "transfers")
 @Getter
@@ -22,6 +24,7 @@ public class Transfer {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTime;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;

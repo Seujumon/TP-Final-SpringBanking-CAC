@@ -38,6 +38,7 @@ public class Account {
     @JoinColumn(name = "owner_id")
     private User owner;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private List<Transfer> transfers;
 }
