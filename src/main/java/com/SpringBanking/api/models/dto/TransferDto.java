@@ -7,6 +7,8 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.SpringBanking.api.models.Account;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class TransferDto {
     private Long destinationAccount;
     private BigDecimal amount;
     private LocalDateTime dateTime;
+    private Account account;
 }
