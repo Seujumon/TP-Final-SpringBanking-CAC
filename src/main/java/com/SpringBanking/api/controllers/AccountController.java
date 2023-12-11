@@ -1,11 +1,14 @@
 package com.SpringBanking.api.controllers;
 
+import com.SpringBanking.api.exceptions.AccountNotExistsException;
 import com.SpringBanking.api.models.dto.AccountDto;
 import com.SpringBanking.api.services.AccountService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 
@@ -23,16 +26,10 @@ public class AccountController {
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<?> getAccount(@PathVariable Long id) {
-    AccountDto account = service.getAccountById(id);
-
-    if (account != null) {
-
-      return ResponseEntity.status(HttpStatus.OK).body(account);
-      
-    } else {
-    
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró la cuenta con ID: " + id);
-    
+    try {
+      return ResponseEntity.status(HttpStatus.OK).body(service.getAccountById(id));
+    } catch (AccountNotExistsException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
   }
 
