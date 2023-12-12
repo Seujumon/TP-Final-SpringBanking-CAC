@@ -1,10 +1,13 @@
 # TP-Final-SpringBanking-CAC
 
-Equipo: 
+### Integrantes:
 
-Lautaro Fernández
-Silvia Luengo
-Gina Ramacciotti 
-Juan Seura
-Lucas Villalba 
+<ul>
+  <li>Silvia Luengo</li>
+  <li>Santiago Paguaga</li>
+  <li>Gina Ramacciotti</li>
+  <li>Juan Seura</li>
+  <li>Lucas Villalba</li> 
+</ul>
+
 

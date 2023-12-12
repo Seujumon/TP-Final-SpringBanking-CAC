@@ -1,5 +1,6 @@
 package com.SpringBanking.api.models.dto;
 
+import com.SpringBanking.api.models.Transfer;
 import com.SpringBanking.api.models.User;
 import com.SpringBanking.api.models.enums.AccountType;
 
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
+import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,10 +23,5 @@ public class AccountDto {
     private String alias;
     private BigDecimal amount;
     private User owner;
-
-    //TODO Relación con la clase TRANSFERDTO
-    /*
-    @OneToMany
     private List<Transfer> transfers;
-    * */
 }

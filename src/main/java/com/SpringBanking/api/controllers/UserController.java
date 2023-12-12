@@ -2,17 +2,20 @@ package com.SpringBanking.api.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.SpringBanking.api.models.dto.UserDto;
 import com.SpringBanking.api.services.UserService;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api")
@@ -53,11 +56,20 @@ public class UserController {
                     .body("Cuenta con id: " + id + " ha sido eliminada!");
     }
 
-    @PatchMapping("/users/{id}")
-    public ResponseEntity<?> modifyUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+    @PutMapping("/users/{id}")
+    public ResponseEntity<?> modifyUser(@PathVariable Long id, @RequestBody UserDto userDto){
         UserDto userModify = userService.updateUser(id, userDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userModify);
+    }
+    //Informa un mal formato en el body 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex){
+        return ResponseEntity.badRequest().body("Invalid request body\n" + ex.getMessage());
+    }
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e){
+    return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

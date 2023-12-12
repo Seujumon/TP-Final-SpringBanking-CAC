@@ -35,7 +35,9 @@ public class AccountService {
     }
 
     public AccountDto getAccountById(Long id) {
-        Account entity = repository.findById(id).get();
+        Account entity = repository.findById(id).orElseThrow(()->{
+            throw new AccountNotExistsException("Account con id:"+id+" inexistente");
+        });
         return AccountMapper.accountToDto(entity);
     }
 

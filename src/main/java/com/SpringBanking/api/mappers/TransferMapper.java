@@ -14,6 +14,7 @@ public class TransferMapper {
         transferDto.setDestinationAccount(transfer.getDestinationAccount());
         transferDto.setAmount(transfer.getAmount());
         transferDto.setDateTime(transfer.getDateTime());
+        transferDto.setAccount(transfer.getAccount());
         return transferDto;
     }
 
@@ -23,6 +24,7 @@ public class TransferMapper {
         transfer.setDestinationAccount(transferDto.getDestinationAccount());
         transfer.setAmount(transferDto.getAmount());
         transfer.setDateTime(transferDto.getDateTime());
+        transfer.setAccount(transferDto.getAccount());
         return transfer;
     }
 }
