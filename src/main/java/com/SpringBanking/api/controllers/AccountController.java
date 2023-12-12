@@ -73,14 +73,4 @@ public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestB
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
-  //Informa un mal formato en el body 
-  @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex){
-      return ResponseEntity.badRequest().body("Invalid request body\n" + ex.getMessage());
-  }
-  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e){
-    return ResponseEntity.badRequest().body(e.getMessage());
-  }
 }
