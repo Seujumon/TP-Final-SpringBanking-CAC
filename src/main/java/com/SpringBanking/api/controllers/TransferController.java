@@ -2,6 +2,7 @@ package com.SpringBanking.api.controllers;
 
 import com.SpringBanking.api.models.dto.TransferDto;
 import com.SpringBanking.api.services.TransferService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/transfers")
 public class TransferController {
 
-    TransferService transferService;
+    private final TransferService transferService;
 
     public TransferController(TransferService service) {
         this.transferService = service;
