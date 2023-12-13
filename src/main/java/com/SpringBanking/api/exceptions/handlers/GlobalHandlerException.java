@@ -23,7 +23,7 @@ public class GlobalHandlerException {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handlerNotFound(NotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recurso no encontrado.\n" + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found.\n" + ex.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

@@ -1,7 +1,9 @@
 package com.SpringBanking.api.exceptions;
 
+import com.SpringBanking.api.exceptions.enums.ClassNotExist;
+
 public class AccountNotExistsException extends RuntimeException {
-    public AccountNotExistsException(String message){
-        super(message);
+    public AccountNotExistsException(ClassNotExist message){
+        super(message.getMessage());
     }
 }
