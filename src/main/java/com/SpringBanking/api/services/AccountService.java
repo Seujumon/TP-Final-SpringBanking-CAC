@@ -2,6 +2,7 @@ package com.SpringBanking.api.services;
 
 import com.SpringBanking.api.exceptions.AccountNotExistsException;
 import com.SpringBanking.api.exceptions.UserNotExistsException;
+import com.SpringBanking.api.exceptions.enums.ClassNotExist;
 import com.SpringBanking.api.mappers.AccountMapper;
 import com.SpringBanking.api.models.Account;
 import com.SpringBanking.api.models.User;
@@ -36,14 +37,14 @@ public class AccountService {
 
     public AccountDto getAccountById(Long id) {
         Account entity = repository.findById(id).orElseThrow(()->{
-            throw new AccountNotExistsException("Account con id:"+id+" inexistente");
+            throw new AccountNotExistsException(ClassNotExist.ACCOUNT_NOT_EXIST);
         });
         return AccountMapper.accountToDto(entity);
     }
 
     public AccountDto createAccount(Long id, AccountDto dto) throws Exception{
         User user = userRepo.findById(id).orElseThrow(()->{
-            throw new UserNotExistsException("User con id:" + id + "inexistente");
+            throw new UserNotExistsException(ClassNotExist.USER_NOT_EXIST);
         });
         //Vreifica que el alias no sea igual a otras cuentas de usuario
         boolean aliasExist = user.getAccounts()
@@ -63,7 +64,7 @@ public class AccountService {
 
     public AccountDto createDefaultAccount(Long id) {
         User user = userRepo.findById(id).orElseThrow(() -> {
-            throw new UserNotExistsException("User con id:" + id + "inexistente");
+            throw new UserNotExistsException(ClassNotExist.USER_NOT_EXIST);
         });
         Account account = repository.save(Account
                 .builder()
@@ -105,7 +106,7 @@ public class AccountService {
             repository.deleteById(id);
             return "La cuenta con id: " + id + " ha sido eliminada";
         } else {
-            throw new AccountNotExistsException("La cuenta a eliminar no existe");
+            throw new AccountNotExistsException(ClassNotExist.ACCOUNT_NOT_EXIST);
         }
     }
 }

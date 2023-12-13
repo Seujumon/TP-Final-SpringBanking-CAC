@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.SpringBanking.api.exceptions.UserNotExistsException;
+import com.SpringBanking.api.exceptions.enums.ClassNotExist;
 import com.SpringBanking.api.mappers.AccountMapper;
 import com.SpringBanking.api.mappers.UserMapper;
 import com.SpringBanking.api.models.User;
@@ -38,7 +39,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User findById(Long id) {
         User user = userRepo.findById(id).orElseThrow(() -> {
-            throw new UserNotExistsException("User no exist with id: " + id);
+            throw new UserNotExistsException(ClassNotExist.USER_NOT_EXIST);
         });
         return user;
     }
@@ -54,7 +55,7 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteById(Long id) {
         userRepo.findById(id).orElseThrow(() -> {
-            throw new UserNotExistsException("User no exist with id: " + id);
+            throw new UserNotExistsException(ClassNotExist.USER_NOT_EXIST);
         });
         userRepo.deleteById(id);
     }
@@ -62,7 +63,7 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
         User user = userRepo.findById(id).orElseThrow(() -> {
-            throw new UserNotExistsException("User no exist with id: " + id);
+            throw new UserNotExistsException(ClassNotExist.USER_NOT_EXIST);
         });
 
         if (userDto.getUsername() != null)
