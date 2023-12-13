@@ -7,29 +7,25 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class AccountMapper {
 
-    // TODO: REFACTOR BUILDER
     public AccountDto accountToDto(Account account){
-        AccountDto dto = new AccountDto();
-        dto.setAlias(account.getAlias());
-        dto.setCbu(account.getCbu());
-        dto.setType(account.getType());
-        dto.setAmount(account.getAmount());
-        dto.setId(account.getId());
-        dto.setOwner(account.getOwner());
-        dto.setTransfers(account.getTransfers());
-        return dto;
+        return AccountDto.builder()
+            .alias(account.getAlias())
+            .cbu(account.getCbu())
+            .type(account.getType())
+            .amount(account.getAmount())
+            .id(account.getId())
+            .owner(account.getOwner())
+            .transfers(account.getTransfers())
+            .build();
     }
-
-
     public Account dtoToAccount(AccountDto dto){
-        Account account = new Account();
-        account.setAlias(dto.getAlias());
-        account.setType(dto.getType());
-        account.setCbu(dto.getCbu());
-        account.setAmount(dto.getAmount());
-        account.setOwner(dto.getOwner());
-        account.setTransfers(dto.getTransfers());
-        return account;
+        return Account.builder()
+            .alias(dto.getAlias())
+            .cbu(dto.getCbu())
+            .type(dto.getType())
+            .amount(dto.getAmount())
+            .owner(dto.getOwner())
+            .transfers(dto.getTransfers())
+            .build();
     }
-    
 }
