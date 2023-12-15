@@ -15,6 +15,11 @@ import com.SpringBanking.api.exceptions.UserNotExistsException;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } 
+
     @ExceptionHandler({ UserNotExistsException.class, TransferNotExistsException.class,
             AccountNotExistsException.class })
     public ResponseEntity<?> handlerClassNotExist(RuntimeException ex) {
@@ -30,10 +35,4 @@ public class GlobalHandlerException {
     public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request body. \n" + ex.getMessage());
     }
-
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<?> handlerPathTypeMissmatch(MethodArgumentTypeMismatchException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-    
 }
